@@ -20,7 +20,8 @@ function BookList() {
     const filteredBooks = books.filter(book => {
         const matchesTitle = book.title.toLowerCase().includes(filter.title.toLowerCase())
         const matchesAuthor = book.author.toLowerCase().includes(filter.author.toLowerCase())
-        return matchesAuthor && matchesTitle
+        const machesFavorite = filter.onlyFavorite ? book.isFavorite : true
+        return matchesAuthor && matchesTitle && machesFavorite
     })
 
     return (
