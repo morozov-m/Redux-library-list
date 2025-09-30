@@ -5,6 +5,7 @@ import { deleteBook, toggleFavorite } from '../../redux/books/actionCreators'
 
 function BookList() {
     const books = useSelector(state => state.books)
+    const filter = useSelector(state => state.filter)
     const dispatch = useDispatch()
 
     function handleToggleFavorite(id) {
@@ -15,14 +16,19 @@ function BookList() {
         dispatch(deleteBook(id))
     }
 
+    const filteredBooks = books.filter(book => {
+        const matchesTitle = book.title.toLowerCase().includes(filter.title.toLowerCase())
+        return matchesTitle
+    })
+
     return (
         <div className="app-block book-list">
             <h2>Book List</h2>
-            {books.length === 0 ? (
+            {filteredBooks.length === 0 ? (
                 <p>No books avaliable</p>
             ) : (
                 <ul>
-                    {books.map((book, index) =>
+                    {filteredBooks.map((book, index) =>
                         <li key={book.id}>
                             <div className='book-info'>
                                 {++index}. {book.title} by <strong>{book.author}</strong>
