@@ -17,6 +17,23 @@ function BookList() {
         dispatch(deleteBook(id))
     }
 
+    function highlightMatch(text, filter) {
+        if (!filter) return text
+
+        const regex = new RegExp(`(${filter})`, 'gi')
+
+        return text.split(regex).map((substring, idx) => {
+            if (substring.toLowerCase() === filter.toLowerCase()) {
+                return (
+                    <span key={idx} className='highlight'>
+                        {substring}
+                    </span>
+                )
+            }
+            return substring
+        })
+    }
+
     const filteredBooks = books.filter(book => {
         const matchesTitle = book.title.toLowerCase().includes(filter.title.toLowerCase())
         const matchesAuthor = book.author.toLowerCase().includes(filter.author.toLowerCase())
@@ -34,7 +51,7 @@ function BookList() {
                     {filteredBooks.map((book, index) =>
                         <li key={book.id}>
                             <div className='book-info'>
-                                {++index}. {book.title} by <strong>{book.author}</strong>
+                                {++index}. {highlightMatch(book.title, filter.title)} by <strong>{highlightMatch(book.author, filter.author)}</strong>
                             </div>
                             <div className='book-actions'>
                                 <span onClick={() => handleToggleFavorite(book.id)}>
