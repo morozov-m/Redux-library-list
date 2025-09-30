@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { addBook } from "../../redux/books/actionCreators"
 import './BookForm.css'
 import booksData from '../../data/books.json'
+import { createBookWithId } from "../../utils/createBookWithId"
 
 
 function BookForm() {
@@ -13,11 +14,7 @@ function BookForm() {
 
     function handleAddRandomBook() {
         const randomIndex = Math.floor(Math.random() * booksData.length)
-        const book = {
-            ...booksData[randomIndex],
-            id: uuidv4(),
-            isFavorite: false
-        }
+        const book = createBookWithId(booksData[randomIndex])
         dispatch(addBook(book))
     }
 
@@ -26,12 +23,7 @@ function BookForm() {
 
         if (title && author) {
 
-            const book = {
-                title,
-                author,
-                id: uuidv4(),
-                isFavorite: false
-            };
+            const book = createBookWithId({ title, author })
             dispatch(addBook(book));
 
             setAuthor('')
