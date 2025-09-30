@@ -1,7 +1,8 @@
 const { createSlice } = require("@reduxjs/toolkit")
 
 const initialState = {
-    title: ''
+    title: '',
+    author: ''
 }
 
 const filterSlice = createSlice({
@@ -15,6 +16,9 @@ const filterSlice = createSlice({
                 ...state, title: action.payload
             }
         },
+        setAuthorFilter: (state, action) => {
+            state.author = action.payload
+        },
         resetFilters: (state) => {
             return initialState
             // state.title = ''
@@ -22,7 +26,7 @@ const filterSlice = createSlice({
     }
 })
 
-export const { setTitleFilter, resetFilters } = filterSlice.actions
+export const { setTitleFilter, setAuthorFilter, resetFilters } = filterSlice.actions
 // const setTitleFilter = filterSlice.actions.setTitleFilter
 
 export function selectFilter(state) {
