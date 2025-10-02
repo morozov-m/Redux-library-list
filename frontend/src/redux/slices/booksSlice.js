@@ -1,4 +1,4 @@
-const { createSlice } = require("@reduxjs/toolkit")
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = []
 
@@ -9,15 +9,22 @@ const booksSlice = createSlice({
         addBook: (state, action) => {
             state.push(action.payload)
         },
-        toggleFavorite: (state, action) => {
-            return state.map(book => book.id === action.payload ? {
-                ...book,
-                isFavorite: !book.isFavorite
-            } : book)
-        },
         deleteBook: (state, action) => {
             return state.filter(book => book.id !== action.payload)
+        },
+        toggleFavorite: (state, action) => {
+            // thanks, immer
+            state.forEach(book => {
+                if (book.id === action.payload) {
+                    book.isFavorite = !book.isFavorite
+                }
+            })
+            // return state.map(book => book.id === action.payload ? {
+            //     ...book,
+            //     isFavorite: !book.isFavorite
+            // } : book)
         }
+
     }
 })
 
